@@ -1,7 +1,7 @@
 # TongjiThesis
 ## 版本说明
 - [2018/11/25] 版本更新：
-  - 模板更新到本人论文终版时调教的状态；
+  - 模板更新到本人论文终版时调校的状态；
   - 调教了部分theorm环境的样式，如“假设”、“证明”。
 - 模板最初由Tongji LUG创作，2014年的[RC2](https://sourceforge.net/projects/tongjithesis/)版本之后似乎已停止维护。此版本融合了wildwolf和[svandex](https://github.com/svandex/masthesis)的部分修改。
 
