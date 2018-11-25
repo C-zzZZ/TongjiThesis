@@ -1,42 +1,46 @@
 %%
 %% This is file `tongjithesis.cls'.
-%% 
+%%
 %% Copyright (C) 2009- by Guanshi Li <gareth.cn@gmail.com>, TongjiLUG <lugtongji@googlegroups.com>
-%% and 
-%% 
+%% and
+%%
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3a
 %% of this license or (at your option) any later version.
 %% The latest version of this license is in:
-%% 
+%%
 %% http://www.latex-project.org/lppl.txt
-%% 
+%%
 %% and version 1.0 or later is part of all distributions of LaTeX
 %% version 2004/10/01 or later.
-%% 
-%% 
+%%
+%%
 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{tongjithesis}
 [2009/05/13 1.0 Tongji University Thesis Template]
-\newif\if@openright 
-\DeclareOption{openright}{\if@openright} 
+\newif\if@openright % mod by ZC
+\DeclareOption{openright}{\if@openright} % mod by ZC
 \newif\iftongji@UTF
 \newif\iftongji@GBK
 \DeclareOption{utf}{\tongji@UTFtrue\tongji@GBKfalse}
 \DeclareOption{gbk}{\tongji@GBKtrue\tongji@UTFfalse}
-\hyphenation{Thu-Thesis}
-\def\thuthesis{\textsc{ThuThesis}}
+% \hyphenation{Thu-Thesis}
+% \def\thuthesis{\textsc{ThuThesis}}
 \hyphenation{Tongji-Thesis}
 \def\tongjithesis{\textsc{TongjiThesis}}
 \def\version{1.0}
 \newif\iftongji@master\tongji@masterfalse
 \newif\iftongji@doctor\tongji@doctorfalse
 \newif\iftongji@secret\tongji@secretfalse
+\newif\iftongji@anonymous\tongji@anonymousfalse
 \newif\iftongji@electronic\tongji@electronicfalse % added by wildwolf 20100109 boolean
 \DeclareOption{master}{\tongji@mastertrue}
 \DeclareOption{doctor}{\tongji@doctortrue}
 \DeclareOption{secret}{\tongji@secrettrue}
+\DeclareOption{anonymous}{\tongji@anonymoustrue\def\AnonymousReview{}}
+\DeclareOption{clean}{\def\CleanMode{}}
+\newcommand{\anonymous}[2]{\ifdefined\AnonymousReview#1\else#2\fi}
 \DeclareOption{electronic}{\tongji@electronictrue} % edited by wildwolf 20100109 add boolean to electronic version
 \newif\iftongji@dvips
 \newif\iftongji@dvipdfm
@@ -79,21 +83,21 @@
 \ifpdf\tongji@checkoption{pdflatex}{dvips,dvipdfm,xetex}\tongji@pdftextrue\fi % force the option to be true
 \ifxetex\tongji@checkoption{xelatex}{dvips,dvipdfm,pdftex}\tongji@xetextrue\fi
 \RequirePackage{ifthen,calc}
-\RequirePackage{amsmath,thmtools,amssymb}
-\RequirePackage{txfonts}
+\RequirePackage{amsmath,amssymb}
+% \RequirePackage{txfonts} % Times looks not good in maths
 \RequirePackage{graphicx}
-\RequirePackage{subfig}%\RequirePackage[config]{subfig}
+\RequirePackage{subcaption}%\RequirePackage[config]{subfig}
 \RequirePackage{indentfirst}
 \RequirePackage[neverdecrease]{paralist}
 \iftongji@xetex
-  \RequirePackage{xunicode,xltxtra}
-  \RequirePackage{xeCJK} 
-  \RequirePackage{CJKnumb} 
+  % \RequirePackage{xunicode,xltxtra}
+  \RequirePackage{xeCJK} % mod by ZC
+  \RequirePackage{CJKnumb} % mod by ZC
   \punctstyle{kaiming}
   % todo: minor fix of CJKnumb
   \def\CJK@null{\kern\CJKnullspace\Unicode{48}{7}\kern\CJKnullspace}
   \defaultfontfeatures{Mapping=tex-text} % after fontspec
-  \setCJKmainfont{FandolSong}%{Noto Serif CJK SC} 
+  \setCJKmainfont{FandolSong}%{Noto Serif CJK SC} % mod by ZC
   \setCJKsansfont{FandolHei}%{Noto Sans CJK SC Regular}
   \setCJKmonofont{FandolKai}
   \setCJKfamilyfont{song}{FandolSong}
@@ -128,7 +132,7 @@
 \fi
 \RequirePackage[amsmath,thmmarks,hyperref]{ntheorem}
 \RequirePackage{array}
-\RequirePackage{longtable}
+% \RequirePackage{longtable}
 \RequirePackage{booktabs}
 \RequirePackage[numbers,super,sort&compress]{natbib}
 \RequirePackage{hyperref}
@@ -147,7 +151,7 @@
   breaklinks=true,
   colorlinks=false,
   plainpages=false,
-  %pdfpagelabels, 
+  %pdfpagelabels, % mod by ZC
   pdfborder=0 0 0}
 \iftongji@dvips
   \RequirePackage{breakurl}
@@ -179,7 +183,7 @@
 \newcommand{\li}{\CJKfamily{li}}        % 隶书
 \def\lishu{\li}
 %\newcommand{\you}{\CJKfamily{you}}      % 幼圆
-%\def\youyuan{\you} 
+%\def\youyuan{\you} % mod by ZC
 \newlength\tongji@linespace
 \newcommand{\tongji@choosefont}[2]{%
    \setlength{\tongji@linespace}{#2*\real{#1}}%
@@ -216,8 +220,8 @@
 \AtBeginDvi{\special{!%
       \@percentchar\@percentchar BeginPaperSize: a4
       ^^Ja4^^J\@percentchar\@percentchar EndPaperSize}}
-%\setlength{\hoffset}{2.54cm-1in}
-%\setlength{\voffset}{3.17cm-1in}
+%\setlength{\hoffset}{2.54cm-1in}% mod by ZC
+%\setlength{\voffset}{3.17cm-1in}% mod by ZC
 \setlength{\textwidth}{\paperwidth}
 \setlength{\textheight}{\paperheight}
 \setlength\marginparwidth{0cm}
@@ -228,9 +232,9 @@
 \setlength{\headheight}{0.5cm}
 \setlength{\topskip}{0pt}
 \setlength{\skip\footins}{15pt}
-%\setlength{\topmargin}{2.8cm-1in} 
+%\setlength{\topmargin}{2.8cm-1in} % mod by ZC
 \setlength{\footskip}{0.84cm}
-\setlength{\headsep}{0.54cm} 
+\setlength{\headsep}{0.54cm} % mod by ZC
 \addtolength{\textheight}{-8.6cm}
 \let\tongji@cleardoublepage\cleardoublepage
 \newcommand{\tongji@clearemptydoublepage}{%
@@ -248,7 +252,7 @@
   \let\@evenfoot=\@oddfoot}
 \def\ps@tongji@headings{%
   \def\@oddhead{\vbox to\headheight{%
-      \hb@xt@\textwidth{\hfill\wuhao\song\leftmark}
+      \hb@xt@\textwidth{\hfill\wuhao\song\leftmark}% mod by ZC
       \vskip2pt\hbox{\vrule width\textwidth height0.4pt depth0pt}}}
   \def\@evenhead{\vbox to\headheight{%
       \hb@xt@\textwidth{\wuhao\song%
@@ -257,7 +261,7 @@
   \def\@oddfoot{\hfil\wuhao\thepage\hfil}
   \let\@evenfoot=\@oddfoot}
 
-\def\ps@tongji@cabstractheadings{
+\def\ps@tongji@cabstractheadings{% mod by ZC
   \def\@oddhead{\vbox to\headheight{%
       \hb@xt@\textwidth{\hfill\wuhao\song%
       \tongji@schoolename\hskip 2mm \tongji@capply\hskip 2mm \leftmark}%
@@ -269,7 +273,7 @@
   \def\@oddfoot{\hfil\wuhao\thepage\hfil}
   \let\@evenfoot=\@oddfoot}
 
-\def\ps@tongji@eabstractheadings{
+\def\ps@tongji@eabstractheadings{% mod by ZC
   \def\@oddhead{\vbox to\headheight{%
       \hb@xt@\textwidth{\hfill\wuhao\song%
       \tongji@eschoolename\hskip 2mm \tongji@edegree\hskip 2mm \leftmark}%
@@ -284,7 +288,7 @@
 \renewcommand{\chaptermark}[1]{\@mkboth{\@chapapp\  ~~#1}{}}
 \newlength\CJK@twochars
 \ifxetex
-  \def\CJK@spaceChar{\hspace{1em}} 
+  \def\CJK@spaceChar{\hspace{1em}} % mod by ZC
 \else
   \iftongji@UTF
     \def\CJK@spaceChar{\CJKchar{"080}{"080}}
@@ -381,7 +385,8 @@
 \captionsetup{labelformat=tongji,labelsep=tongji,font=tongji}
 \captionsetup[table]{position=top,belowskip={12bp-\intextsep},aboveskip=6bp}
 \captionsetup[figure]{position=bottom,belowskip={12bp-\intextsep},aboveskip=6bp}
-\captionsetup[subfloat]{labelformat=simple,font=tongji,captionskip=6bp,nearskip=6bp,farskip=0bp,topadjust=0bp}
+\captionsetup[sub]{font=tongji,labelformat=tongji}
+% \captionsetup[subfloat]{labelformat=simple,font=tongji,captionskip=6bp,nearskip=6bp,farskip=0bp,topadjust=0bp}
 \renewcommand{\thesubfigure}{(\alph{subfigure})}
 \renewcommand{\thesubtable}{(\alph{subtable})}
 \let\tongji@LT@array\LT@array
@@ -462,11 +467,11 @@
 \renewcommand\section{\@startsection {section}{1}{\z@}%
                      {-24bp\@plus -1ex \@minus -.2ex}%
                      {6bp \@plus .2ex}%
-                     {\hei\csname tongji@title@font\endcsname\xiaosan[1.429]}}
+                     {\hei\csname tongji@title@font\endcsname\xiaosan[1.429]}}% mod by ZC
 \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
                         {-12bp\@plus -1ex \@minus -.2ex}%
                         {6bp \@plus .2ex}%
-                        {\hei\csname tongji@title@font\endcsname\sihao[1.538]}}
+                        {\hei\csname tongji@title@font\endcsname\sihao[1.538]}}% mod by ZC
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
                            {-12bp\@plus -1ex \@minus -.2ex}%
                            {6bp \@plus .2ex}%
@@ -587,49 +592,48 @@
 \def\tongji@put@title#1{\makebox{\hb@xt@ \tongji@title@width{#1}}}
 \newcommand{\tongji@first@titlepage}{
   \begin{center}
-    \vspace*{0cm}
+    \vspace*{0cm}% mod by ZC
     \parbox[b][1.8cm][t]{\textwidth}{%
       \hspace*{11.2cm}\iftongji@secret{\sanhao\tongji@secret@title}\else\rule{1cm}{0cm}\fi\\[0.1cm]
 %        \parbox[t][9cm][t]{\paperwidth-10cm}{
-    %\hspace*{.4cm} 
+    %\hspace*{.4cm} % mod by ZC
       \iftongji@electronic{{\kai\xiaosi\tongji@thesistype （打印时删除）}}\else\rule{1cm}{0cm}\fi}\\[-.9cm] %TODO:需要伪斜体？
     \parbox[t][1.8cm][t]{\textwidth}{%
     \centering\hspace*{.3cm}
-    \includegraphics[width=10cm]{tongji-whole-logo.eps}}\\[-.6cm] % logo
-    \parbox[t][9cm][t]{\paperwidth-7cm}{ 
+    \includegraphics[width=10cm]{tongji-whole-logo}}\\[-.6cm] % logo
+    \parbox[t][9cm][t]{\paperwidth-10cm}{
       \renewcommand{\baselinestretch}{1}
       \begin{center}
-            \erhao[1]{{\erhao\li\tongji@capply}}\par\vskip 1.8cm  % no bold for LiShu
+            \erhao[1]{{\erhao\li\tongji@capply}}\par\vskip 1.8cm % mod by ZC % no bold for LiShu
             \linespread{0.7}\selectfont\erhao[2]\textbf{\hei\tongji@ctitle}\par\vskip 17pt
      \ifx\cfunds\@empty\else
             \xiaosi{\tongji@cfunds}
              \par\vskip 20bp\fi
       \end{center}}
-       \vskip -0.4cm 
+       \vskip -0.4cm % mod by ZC
       \hspace*{1.2cm}\parbox[t][8.5cm][t]{\textwidth}{{\sanhao[1.5]
         \begin{center}\fs
-          \setlength{\tongji@title@width}{5em}
+          \setlength{\tongji@title@width}{5em}% mod by ZC
           \setlength{\extrarowheight}{4pt}
           \ifxetex % todo: ugly codes
       \begin{tabular}{p{\tongji@title@width}@{}c@{\extracolsep{8pt}}p{7cm}l}
           \else
       \begin{tabular}{p{\tongji@title@width}c@{\extracolsep{8pt}}p{7cm}l}
           \fi
-              \tongji@put@title{\tongji@cauthortitle}      & \tongji@title@sep & {\ziju{3bp}\tongji@cauthor}\\
-              \tongji@put@title{\tongji@studentnumber}      & \tongji@title@sep & {\ziju{3bp}\tongji@snumber}\\
-              \tongji@put@title{\tongji@cdepartmenttitle}  & \tongji@title@sep & {\ziju{3bp}\tongji@cdepartment}\\
-              \tongji@put@title{\tongji@cmajortitlefirst}       & \tongji@title@sep & {\ziju{3bp}\tongji@cmajorfirst}\\
+              \tongji@put@title{\tongji@cauthortitle} & \tongji@title@sep & {\ziju{3bp}\anonymous{}{\tongji@cauthor}}\\
+              \tongji@put@title{\tongji@studentnumber} & \tongji@title@sep & {\ziju{3bp}\anonymous{}{\tongji@snumber}}\\
+              \tongji@put@title{\tongji@cdepartmenttitle} & \tongji@title@sep & {\ziju{3bp}\tongji@cdepartment}\\
+              \tongji@put@title{\tongji@cmajortitlefirst} & \tongji@title@sep & {\ziju{3bp}\tongji@cmajorfirst}\\
               \tongji@put@title{\tongji@cmajortitlesecond} & \tongji@title@sep & {\ziju{3bp}\tongji@cmajorsecond}\\
-%              \tongji@put@title{\tongji@cauthortitle}      & \tongji@title@sep & {\ziju{3bp}\tongji@cauthor}\\ 
-              \tongji@put@title{\tongji@csupervisortitle}  & \tongji@title@sep & {\ziju{3bp}\tongji@csupervisor}\\
+              \tongji@put@title{\tongji@csupervisortitle} & \tongji@title@sep & {\ziju{3bp}\anonymous{}{\tongji@csupervisor}}\\
               \ifx\tongji@cassosupervisor\@empty\else
-          \tongji@put@title{\tongji@cassosupertitle} & \tongji@title@sep & {\ziju{3bp}\tongji@cassosupervisor}\\
+          \tongji@put@title{\tongji@cassosupertitle} & \tongji@title@sep & {\ziju{3bp}\anonymous{}{\tongji@cassosupervisor}}\\
               \fi
               \ifx\tongji@ccosupervisor\@empty\else
-                \tongji@put@title{\tongji@ccosupertitle}   & \tongji@title@sep & {\ziju{3bp}\tongji@ccosupervisor}\\
+                \tongji@put@title{\tongji@ccosupertitle}   & \tongji@title@sep & {\ziju{3bp}\anonymous{}{\tongji@ccosupervisor}}\\
               \fi
             \end{tabular}
-        \end{center}}}\\[1.3cm] 
+        \end{center}}}\\[1.3cm] % mod by ZC
      \begin{center}
        {\sanhao \song \tongji@cdate}
      \end{center}
@@ -637,44 +641,42 @@
 
 \newcommand{\engcover}{%
 \begin{center}
-    \vspace*{0.5cm} 
-%    \parbox[b][1.8cm][t]{\textwidth}{
+    \vspace*{0.5cm} % mod by ZC
+%    \parbox[b][1.8cm][t]{\textwidth}{% mod by ZC
       %\hspace*{11.2cm}\iftongji@secret{\sanhao\tongji@secret@title}\else\rule{1cm}{0cm}\fi\\[-0.1cm]
 %      \hspace*{-0.1cm}\includegraphics[scale=0.16]{tongjilogo.png}}
 %      \vskip -0.9cm
-    \vspace*{0.5cm} 
+    \vspace*{0.5cm} % mod by ZC
     \parbox[t][1.8cm][t]{\textwidth}{%
-    \centering\hspace*{.3cm}
-    \includegraphics[width=10cm]{tongji-whole-logo.eps}}\\[-.6cm] % logo
+    \centering\hspace*{.3cm}% mod by ZC
+    \includegraphics[width=10cm]{tongji-whole-logo}}\\[-.6cm] % logo
     \vspace*{0.3cm}
     \parbox[t][9cm][t]{\paperwidth-6cm}{
       \renewcommand{\baselinestretch}{1}
       \begin{center}
-            \sihao[1.3]{\tongji@eapply}\par\vskip 1.4cm 
+            \sihao[1.3]{\tongji@eapply}\par\vskip 1.4cm % mod by ZC
             \erhaoban[1.5]\textbf{\bfseries\sffamily\tongji@etitle}\par\vskip 14pt
             \ifx\efunds\@empty\else\xiaosi[1.3]{\tongji@efunds}
              \par\vskip 20bp\fi
       \end{center}}
-       %\vskip 0.5cm 
-      \hspace*{1.2cm}\parbox[t][8.7cm][t]{\textwidth}{\sanhao[1.5] 
+      \hspace*{1.2cm}\parbox[t][8.7cm][t]{\textwidth}{\sanhao[1.5] % mod by ZC
         \begin{center}
-        \begin{tabular}{lp{6cm}} 
-          Candidate :& \tongji@eauthor  \\
-          Student Number : & \tongji@snumber\\
-          School/Department :& \tongji@edepartment\\
-          Discipline : & \tongji@emajorfirst\\
-          Major : & \tongji@emajorsecond\\
-          %Candidate :& \tongji@eauthor\\ 
-          Supervisor : & \tongji@esupervisor\\
+        \begin{tabular}{lp{6cm}l}
+          Candidate:& \anonymous{}{\tongji@eauthor}  \\
+          Student Number: & \anonymous{}{\tongji@snumber} \\
+          School/Department:& \tongji@edepartment\\
+          Discipline: & \tongji@emajorfirst\\
+          Major: & \tongji@emajorsecond\\
+          Supervisor: & \anonymous{}{\tongji@esupervisor} \\
         \ifx\tongji@eassosupervisor\@empty
-          \else Associate Supervisor : & \tongji@eassosupervisor\\\fi
+          \else Associate Supervisor: & \anonymous{}{\tongji@eassosupervisor} \\\fi
         \ifx\tongji@ecosupervisor\@empty
-          \else Cooperate Supervisor : & \tongji@ecosupervisor\\\fi
+          \else Cooperate Supervisor: & \anonymous{}{\tongji@ecosupervisor} \\\fi
       \end{tabular}
     \end{center}}
-    \vskip -2cm 
+    \vskip -2cm % mod by ZC
      \begin{center}
-       \sanhao\tongji@edate 
+       \sanhao\tongji@edate % mod by ZC
      \end{center}
 \end{center}} % end of english cover
 
@@ -720,8 +722,8 @@
 \newcommand{\tongji@makeabstract}{%
   \cleardoublepage % always openright for Abstract
   \tongji@chapter*[]{\cabstractname} % no tocline
-  \thispagestyle{tongji@cabstractheadings} 
-  \pagestyle{tongji@cabstractheadings}  
+  \thispagestyle{tongji@cabstractheadings} % mod by ZC
+  \pagestyle{tongji@cabstractheadings} % mod by ZC
   \pagenumbering{Roman}
   \tongji@cabstract
   \vskip12bp
@@ -729,8 +731,8 @@
   \noindent\hangindent\wd0\hangafter1
     \box0\tongji@ckeywords
   \tongji@chapter*[]{\eabstractname} % no tocline
-  \thispagestyle{tongji@eabstractheadings} 
-  \pagestyle{tongji@eabstractheadings}  
+  \thispagestyle{tongji@eabstractheadings} % mod by ZC
+  \pagestyle{tongji@eabstractheadings} % mod by ZC
   \tongji@eabstract
   \vskip12bp
   \setbox0=\hbox{\textbf{Key words:\enskip}}
@@ -738,8 +740,8 @@
     \box0\tongji@ekeywords}
 \newenvironment{denotation}[1][2.5cm]{
   \tongji@chapter*[]{\tongji@denotation@name} % no tocline
-  \thispagestyle{tongji@cabstractheadings} 
-  \pagestyle{tongji@cabstractheadings}  
+  \thispagestyle{tongji@cabstractheadings} % mod by ZC
+  \pagestyle{tongji@cabstractheadings} % mod by ZC
   \noindent\begin{list}{}%
     {\vskip-30bp\xiaosi[1.6]
      \renewcommand\makelabel[1]{##1\hfil}
@@ -756,8 +758,8 @@
 \newenvironment{ack}{%
      % \cleardoublepage
     \tongji@chapter*[\tongji@acklongname]{\tongji@ackname}[\tongji@acklongname]
-  \thispagestyle{tongji@cabstractheadings} 
-  \pagestyle{tongji@cabstractheadings}  
+  \thispagestyle{tongji@cabstractheadings} % mod by ZC
+  \pagestyle{tongji@cabstractheadings} % mod by ZC
   }
 
 \def\tongji@starttoc#1{% #1: float type, prepend type name in \listof*** entry.
@@ -786,12 +788,12 @@
 \DeclareRobustCommand\onlinecite{\@onlinecite}
 \def\@onlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
 \def\tongjidot{\unskip.}
-\def\tongjimasterbib{\iftongji@doctor [dissertation]\else [Master Thesis]\fi} 
-\def\tongjiphdbib{\iftongji@doctor [dissertation]\else [Doctor Thesis]\fi} 
+\def\tongjimasterbib{\iftongji@doctor [dissertation]\else [Master Thesis]\fi} % mod by ZC
+\def\tongjiphdbib{\iftongji@doctor [dissertation]\else [Doctor Thesis]\fi} % mod by ZC
 \renewenvironment{thebibliography}[1]{%
    \tongji@chapter*{\bibname}%
-   \thispagestyle{tongji@cabstractheadings} 
-   \pagestyle{tongji@cabstractheadings}  
+   \thispagestyle{tongji@cabstractheadings} % mod by ZC
+   \pagestyle{tongji@cabstractheadings} % mod by ZC
    \wuhao[1.4]
    \list{\@biblabel{\@arabic\c@enumiv}}%
         {\renewcommand{\makelabel}[1]{##1\hfill}
@@ -816,17 +818,17 @@
 \renewenvironment{appendix}{%
   \tongji@appendix
   \gdef\@chapapp{\appendixname~\thechapter}
-  \thispagestyle{tongji@cabstractheadings} 
-  \pagestyle{tongji@cabstractheadings}  
+  \thispagestyle{tongji@cabstractheadings} % mod by ZC
+  \pagestyle{tongji@cabstractheadings} % mod by ZC
   }{}
 \newenvironment{resume}{%
   % \cleardoublepage
   \tongji@chapter*{\tongji@resume@title}
-  \thispagestyle{tongji@cabstractheadings} 
-  \pagestyle{tongji@cabstractheadings}  
-  \wuhao[1.5] 
+  \thispagestyle{tongji@cabstractheadings} % mod by ZC
+  \pagestyle{tongji@cabstractheadings} % mod by ZC
+  \wuhao[1.5] % mod by ZC
   }{}
-\newcommand{\resumeitem}[1]{\vspace{2.5em}{\wuhao\hei\leftline{#1}}\par} 
+\newcommand{\resumeitem}[1]{\vspace{2.5em}{\wuhao\hei\leftline{#1}}\par} % mod by ZC
 \iffalse
 \newcommand{\bs}{\symbol{'134}}%Print backslash
 \newcommand{\cih}[1]{%

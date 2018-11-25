@@ -2,29 +2,33 @@
 would like to use here]
 
 % 处理数学公式中的黑斜体的宏包
-%\RequirePackage{bm}
+\RequirePackage{bm}
 
 
 % 不同于~|\mathcal| or |\mathfrak| 之类的英文花体字体
-%\RequirePackage{mathrsfs}
+\RequirePackage{mathrsfs}
 
 % 表格中支持跨行
-%\RequirePackage{multirow}
+\RequirePackage{multirow}
 
 % 跨页表格
 %\RequirePackage{longtable}
 
 % 固定宽度的表格
-%\RequirePackage{tabularx}
+\RequirePackage{tabularx}
 
 % 表格中的反斜线
-%\RequirePackage{slashbox} 
+%\RequirePackage{slashbox} % mod by ZC
 
 % 确定浮动对象的位置，可以使用~H，强制将浮动对象放到这里（可能效果很差）
 \RequirePackage{float}
 
+\RequirePackage{flafter}
+
+\usepackage[section]{placeins}
+
 % 调整目录特殊要求，重定义缩进量
-\usepackage{titletoc} 
+\usepackage{titletoc} % mod by ZC
 \titlecontents{chapter}[0pt]{\addvspace{0pt}}%
           {\xiaosi\song\thecontentslabel\enspace}%
               {\xiaosi\song}{\dotfill\contentspage}[\addvspace{0pt}]
@@ -41,67 +45,94 @@ would like to use here]
 % 理的浮动图形立即被处理。这三个宏包仅供参考，未必使用：
  % \RequirePackage[below]{placeins}
  % \RequirePackage{floatflt} % 图文混排用宏包
- % \RequirePackage{rotating} % 图形和表格的控制旋转
+ \RequirePackage{rotating} % 图形和表格的控制旋转
 
 % 给自定义的宏后面自动加空白
 \RequirePackage{xspace}
 
+% 消除中英文间的空格
+% \CJKsetecglue{}
+
 
 % 定义自己常用的东西
-\newcommand{\china}{中华人民共和国}
+% \newcommand{\china}{中华人民共和国}
 
 \RequirePackage{anyfontsize}
 
-% 表格需要尾注时可以用这个
-%\RequirePackage{threeparttable}
+\RequirePackage{threeparttable}
 
 \RequirePackage{siunitx}
 
 \RequirePackage{booktabs}
 
-\RequirePackage{multirow}
-
 \RequirePackage{amstext}
 
-\RequirePackage{graphicx}
+\usepackage{arydshln}
 
-% 化学符号环境
-%\RequirePackage[version=3]{mhchem}
+% \RequirePackage[version=3]{mhchem}
 
-% 算法环境
-%\RequirePackage{algorithm,algorithmicx,algpseudocode}
-%\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-%\renewcommand{\algorithmicensure}{\textbf{Output:}}
-%\floatname{algorithm}{算法}
+% \RequirePackage{subcaption}
 
-% 要用Tikz画图的话，考虑反注释下面这段
-%\RequirePackage{tikz}
-%\usetikzlibrary[shapes.geometric,arrows]
-%\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
-%\tikzstyle{arrow} = [thick,->,>=stealth]
-%\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\usepackage[labelsep=space]{caption}
 
-% 方便写公式的一些宏
-%\newcommand{\abs}[1]{\left\lvert#1\right\rvert}   % 定义绝对值符号
-%\newcommand{\norm}[1]{\left\lVert#1\right\rVert}  % 定义取模符号
-%\newcommand{\dif}{\mathrm{d}}
+\RequirePackage{wasysym}
 
+\RequirePackage[shortlabels]{enumitem}
+
+\usepackage[]{hyperref}
+
+\ifdefined\CleanMode
+	\RequirePackage[disable,textwidth=2.55cm,textsize=footnotesize,bordercolor=orange,backgroundcolor=orange!20]{todonotes}
+\else
+	\RequirePackage[textwidth=2.55cm,textsize=footnotesize,bordercolor=orange,backgroundcolor=orange!20]{todonotes}
+	\usepackage[color]{showkeys}
+	\definecolor{refkey}{gray}{.67}
+	\definecolor{labelkey}{gray}{.67}
+\fi
+\setlength{\marginparwidth}{2.55cm}
+
+\RequirePackage{algorithm,algorithmicx,algpseudocode}
+%\RequirePackage{algorithm2e}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\floatname{algorithm}{算法}
+\numberwithin{algorithm}{chapter}
+
+\RequirePackage{tikz}
+\usetikzlibrary[shapes,arrows]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+
+\RequirePackage{silence}
+\WarningFilter{latexfont}{Font shape}
+
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}   % 定义绝对值符号
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}  % 定义取模符号
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\sinc}{\mathrm{sinc}}
+\newcommand{\cov}{\mathrm{Cov}}
+\newcommand{\corr}{\mathrm{Corr}}
+\newcommand{\subspace}[1]{\mathcal{#1}}
+\newcommand{\spn}[1]{\mathrm{span}\{#1\}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+%% variables in each math category.
 %\newcommand{\Scalar}[1]{#1}% Scalar is the normal math typeset, italic
-%\newcommand{\Vector}[1]{\boldsymbol{#1}}% General vectors in bold italic
+\newcommand{\Vector}[1]{\bm{#1}}% General vectors in bold italic
 %\renewcommand{\vec}[1]{\Vector{#1}}% redefine predefined vector if needed
-%\newcommand{\unitVector}[1]{\boldsymbol{\mathbf{#1}}}% Unit vectors in bold roman
-%\newcommand{\Tensor}[1]{\boldsymbol{\mathsf{#1}}}% Tensor in sans-serif bold italic
-%\newcommand{\unitTensor}[1]{\boldsymbol{{\mathsf{#1}}}}% Identity tensor in sans-serif bold
-%\newcommand{\Matrix}[1]{\boldsymbol{\mathbf{#1}}}% Matrix in bold roman
-%\newcommand{\unitMatrix}[1]{\boldsymbol{\mathbf{#1}}}% Identity matrix in bold roman
-%\newcommand{\Unit}[1]{\,\mathrm{#1}}% Units in roman
-%\newcommand{\Const}[1]{\mathrm{#1}}% Math constants, functions
-%\newcommand{\Set}[1]{\mathbb{#1}}% Special sets (e.g. real numbers) in blackboard bold
-%\newcommand{\Transpose}{\mathsf{T}} % Matrix Transpose
-%\newcommand{\tr}{\mathrm{tr}} % trace
+\newcommand{\unitVector}[1]{\mathbf{#1}}% Unit vectors in bold roman
+% \newcommand{\Tensor}[1]{\boldsymbol{\mathsf{#1}}}% Tensor in sans-serif bold italic
+% \newcommand{\unitTensor}[1]{\boldsymbol{{\mathsf{#1}}}}% Identity tensor in sans-serif bold
+\newcommand{\Matrix}[1]{\bm{\mathbf{#1}}}% Matrix in bold roman
+% \newcommand{\unitMatrix}[1]{\boldsymbol{\mathbf{#1}}}% Identity matrix in bold roman
+% \newcommand{\Unit}[1]{\,\mathrm{#1}}% Units in roman
+\newcommand{\Const}[1]{\mathrm{#1}}% Math constants, functions
+\newcommand{\Set}[1]{\mathbb{#1}}% Special sets (e.g. real numbers) in blackboard bold
+\newcommand{\Transpose}{\mathsf{T}} % Matrix Transpose
+\newcommand{\tr}{\mathrm{tr}} % trace
 
-% 单元格内换行
-%\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}  
-
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 
 \endinput

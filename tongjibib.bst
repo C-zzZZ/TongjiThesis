@@ -8,13 +8,15 @@ ENTRY
     author
     booktitle
     chapter
+    country
+    day
     edition
     editor
     howpublished
     institution
     journal
     key
-    lang
+    language
     month
     note
     number
@@ -25,9 +27,9 @@ ENTRY
     series
     title
     type
+    url
     volume
     year
-    url
   }
   {}
   { label }
@@ -182,7 +184,7 @@ FUNCTION {fin.entry}
 }
 
 % FUNCTION {fin.entry}
-% { add.period$   
+% { add.period$
 %   write$
 %   %remove.dots
 %   newline$
@@ -270,7 +272,7 @@ FUNCTION {bbl.cn.etal}
 { "等." }
 
 FUNCTION {format.lang}
-{ lang empty$
+{ language empty$
     'skip$
     'skip$
   if$
@@ -284,7 +286,7 @@ FUNCTION {format.names}
     { namesleft #0 > }
     { s nameptr
       %"{ff }{ll}"
-      "{ll }{f{~}}"    
+      "{ll }{f{~}}"
       format.name$
       remove.dots
       %bibinfo bibinfo.check
@@ -311,9 +313,9 @@ FUNCTION {format.names}
               if$
               t "others" =
                 {
-                  lang empty$
+                  language empty$
                     { ", " * bbl.etal * }
-                    { lang "zh" =
+                    { language "zh" =
                        { ", " * bbl.cn.etal * }
                        'skip$
                       if$
@@ -321,15 +323,15 @@ FUNCTION {format.names}
                   if$
                 }
                 {
-                  lang empty$
+                  language empty$
                     { ", " * t * }
-                    { lang "zh" =
+                    { language "zh" =
                        { ", " * t * }
-                       'skip$                   
+                       'skip$
                      if$
                     }
                   if$
-                } 
+                }
               if$
             }
           if$
@@ -350,7 +352,7 @@ FUNCTION {format.authors}
 }
 
 FUNCTION {editors.names}
-{ lang empty$
+{ language empty$
     { ", (eds.)" }
     { ", 编" }
   if$
@@ -539,7 +541,7 @@ FUNCTION {format.vol.num.pages}
     'skip$
     { duplicate$ empty$
     { pop$ format.pages }
-    { ":" * pages n.dashify * }
+    { ": " * pages n.dashify * }
       if$
     }
   if$
@@ -562,7 +564,7 @@ FUNCTION {format.chapter.pages}
 }
 
 FUNCTION {collection.in}
-{ lang empty$
+{ language empty$
     { "In: " }
     { "见: " }
   if$
@@ -572,12 +574,12 @@ FUNCTION {format.in.ed.booktitle}
 { booktitle empty$
     { "" }
     { editor empty$
-    { lang empty$
+    { language empty$
         { "Proceedings of " booktitle * }
         { " " booktitle * }
       if$
     }
-    { lang empty$
+    { language empty$
         { collection.in format.editors * ". Proceedings of " * booktitle * }
         { collection.in format.editors * ". " * booktitle * }
       if$
@@ -750,7 +752,7 @@ FUNCTION {format.title.type}
   if$
 }
 
-FUNCTION {book} 
+FUNCTION {book}
 { output.bibitem
   author empty$
     { format.editors "author and editor" output.check }
@@ -777,12 +779,12 @@ FUNCTION {book}
   format.edition output
   format.address.publisher output
   pages empty$
-    { format.date "year" output.check 
+    { format.date "year" output.check
       % new.sentence
       % format.pages output
     }
-    { format.date ":" * format.pages * output }
-  if$  
+    { format.date ": " * format.pages * output }
+  if$
   fin.entry
 }
 
@@ -805,7 +807,7 @@ FUNCTION {article}
     }
   if$
   new.block
-  format.note output  
+  format.note output
   fin.entry
 }
 
@@ -853,7 +855,7 @@ FUNCTION {inbook}
   format.edition output
   pages empty$
     { format.date output }
-    { format.date ":" * format.pages * output }
+    { format.date ": " * format.pages * output }
   if$
   % format.date "." * format.pages * output
   fin.entry
@@ -877,7 +879,7 @@ FUNCTION {incollection}
       %format.edition output
       % format.date "year" output.check
       % format.date ". " * format.pages * output
-      format.date ":" * format.pages * output
+      format.date ": " * format.pages * output
     }
     { format.incoll.inproc.crossref output.nonnull
       format.chapter.pages output
@@ -907,7 +909,7 @@ FUNCTION {inproceedings}
       year output
     }
     { %address output.nonnull
-      format.address.publisher output  
+      format.address.publisher output
       %format.date "year" output.check
       year output
       new.sentence
@@ -924,7 +926,7 @@ FUNCTION {inproceedings}
     }
   if$
   new.block
-  note output  
+  note output
   fin.entry
 }
 
@@ -965,7 +967,7 @@ FUNCTION {manual}
 }
 
 FUNCTION {masterthesis.type}
-{ lang empty$
+{ language empty$
     { "\tongjimasterbib" }
     { "[硕士学位论文]" }
   if$
@@ -980,7 +982,7 @@ FUNCTION {mastersthesis}
   new.block
   format.address.school output
   %format.madd "address" output.check
-  %school "school" output.check  
+  %school "school" output.check
   format.date "year" output.check
   new.block
   note output
@@ -1002,11 +1004,25 @@ FUNCTION {misc}
   empty.misc.check
 }
 
+FUNCTION {patent}
+{
+  output.bibitem
+  format.authors "author" output.check
+  new.block
+  format.title "title" output.check
+  new.block
+  country "专利" * output
+  number output
+  new.block
+  year "-" * month * "-" * day * output
+  fin.entry
+}
+
 FUNCTION {phdthesis.type}
-{ lang empty$
+{ language empty$
     { "\tongjiphdbib" }
     { "[博士学位论文]" }
-  if$ 
+  if$
 }
 
 FUNCTION {phdthesis}
@@ -1018,7 +1034,7 @@ FUNCTION {phdthesis}
   new.block
   format.address.school output
   %address output
-  %school "school" output.check  
+  %school "school" output.check
   format.date "year" output.check
   new.block
   note output
